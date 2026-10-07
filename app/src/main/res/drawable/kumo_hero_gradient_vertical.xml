@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nuvio DetailHero bottom scrim approximation (XML supports 3 stops;
+     Nuvio uses 7: 0/.04/.14/.34/.62/.84/1.0 over the bottom 320dp). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="270"
+        android:startColor="#00080A0F"
+        android:centerColor="#57080A0F"
+        android:endColor="#FF080A0F"
+        android:type="linear" />
+</shape>
