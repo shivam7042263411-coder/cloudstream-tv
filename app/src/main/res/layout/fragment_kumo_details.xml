@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#080A0F"
+    tools:context=".ui.kumo.details.KumoDetailsFragment">
+
+    <!-- FIXED full-screen artwork. Bright on hero, dimmed on scroll (Nuvio-style). -->
+    <ImageView
+        android:id="@+id/kumoDetailsBackdrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <!-- Left scrim over the text side. Fades out together with the dim. -->
+    <View
+        android:id="@+id/kumoDetailsScrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/kumo_backdrop_scrim" />
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/kumoDetailsScroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- HERO: transparent, bottom-anchored, left-aligned. -->
+            <LinearLayout
+                android:id="@+id/kumoDetailsHero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="560dp"
+                android:gravity="bottom|start"
+                android:clipChildren="false"
+                android:orientation="vertical"
+                android:paddingStart="48dp"
+                android:paddingEnd="18dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/kumoDetailsLogo"
+                    android:layout_width="260dp"
+                    android:layout_height="96dp"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/kumoDetailsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFFFFF"
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="start"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    tools:text="Mushoku Tensei: Jobless Reincarnation" />
+
+                <TextView
+                    android:id="@+id/kumoDetailsGenres"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#9AA0A6"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/google_sans"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    tools:text="Fantasy • Drama • Animation" />
+
+                <!-- ACTIONS -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal"
+                    android:clipChildren="false"
+                    android:gravity="start|center_vertical">
+
+                    <Button
+                        android:id="@+id/kumoDetailsPlay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="52dp"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:background="@drawable/kumo_play_button_white"
+                        android:text="▶ Play S1E1"
+                        android:textColor="#14141C"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/google_sans"
+                        android:nextFocusDown="@+id/kumoDetailsSeasons"
+                        android:nextFocusRight="@+id/kumoDetailsSaved"
+                        android:stateListAnimator="@null" />
+
+                    <ImageButton
+                        android:id="@+id/kumoDetailsSaved"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/kumo_circle_button"
+                        android:contentDescription="@string/action_add_to_favorites"
+                        android:nextFocusLeft="@+id/kumoDetailsPlay"
+                        android:nextFocusRight="@+id/kumoDetailsMoreActions"
+                        android:nextFocusDown="@+id/kumoDetailsSeasons"
+                        app:srcCompat="@drawable/ic_baseline_add_24"
+                        app:tint="#FFFFFF" />
+
+                    <ImageButton
+                        android:id="@+id/kumoDetailsMoreActions"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="12dp"
+                        android:background="@drawable/kumo_circle_button"
+                        android:contentDescription="@string/more"
+                        android:nextFocusLeft="@+id/kumoDetailsSaved"
+                        android:nextFocusDown="@+id/kumoDetailsSeasons"
+                        app:srcCompat="@drawable/ic_baseline_more_vert_24"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <!-- META ROW 1: year + IMDb -->
+                <LinearLayout
+                    android:id="@+id/kumoDetailsMetaRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="start|center_vertical">
+
+                    <TextView
+                        android:id="@+id/kumoDetailsYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/google_sans"
+                        tools:text="2021-" />
+
+                    <TextView
+                        android:id="@+id/kumoDetailsImdbBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:background="@drawable/kumo_imdb_badge"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="6dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:text="IMDb"
+                        android:textColor="#14141C"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/google_sans"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/kumoDetailsRating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:textColor="#F5C518"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/google_sans"
+                        android:visibility="gone"
+                        tools:text="8.2"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <!-- META ROW 2: status + runtime + age -->
+                <LinearLayout
+                    android:id="@+id/kumoDetailsMetaRow2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:gravity="start|center_vertical">
+
+                    <TextView
+                        android:id="@+id/kumoDetailsStatusBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/outline_big_20_gray"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="#C9CDD3"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/google_sans"
+                        android:visibility="gone"
+                        tools:text="ONGOING"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/kumoDetailsRuntime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/google_sans"
+                        tools:text="24m" />
+
+                    <TextView
+                        android:id="@+id/kumoDetailsAgeBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:background="@drawable/kumo_age_badge"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:textColor="#C9CDD3"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/google_sans"
+                        android:visibility="gone"
+                        tools:text="TV-MA"
+                        tools:visibility="visible" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/kumoDetailsResumeInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="#7A5CFA"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/google_sans"
+                    android:visibility="gone"
+                    tools:text="Resume S1 E5"
+                    tools:visibility="visible" />
+
+                <!-- DESCRIPTION -->
+                <TextView
+                    android:id="@+id/kumoDetailsDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:lineSpacingExtra="3dp"
+                    android:fontFamily="@font/google_sans"
+                    android:maxLines="2"
+                    tools:text="Killed while saving a stranger from a traffic collision, a 34-year-old NEET is reincarnated..." />
+
+                <TextView
+                    android:id="@+id/kumoDetailsMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="#9AA0A6"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/google_sans"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:text="Show More ▾" />
+            </LinearLayout>
+
+            <!-- SECTIONS scroll over the dimmed artwork. -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:clipChildren="false"
+                android:paddingStart="48dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="72dp">
+
+                <!-- CAST -->
+                <TextView
+                    android:id="@+id/kumoDetailsCastLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="Cast"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/google_sans"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/kumoDetailsCast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:clipToPadding="false"
+                    android:nextFocusUp="@+id/kumoDetailsPlay"
+                    android:nextFocusDown="@+id/kumoDetailsSeasons"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
+
+                <!-- SEASONS (label removed per design; pills only) -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/kumoDetailsSeasons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:clipToPadding="false"
+                    android:nextFocusUp="@+id/kumoDetailsPlay"
+                    android:nextFocusDown="@+id/kumoDetailsEpisodes"
+                    tools:listitem="@layout/kumo_option_chip" />
+
+                <!-- DUB / SUB -->
+                <LinearLayout
+                    android:id="@+id/kumoDetailsDubRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/kumoDetailsDubs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:nextFocusUp="@+id/kumoDetailsSeasons"
+                        android:nextFocusDown="@+id/kumoDetailsEpisodes"
+                        tools:listitem="@layout/kumo_option_chip" />
+                </LinearLayout>
+
+                <!-- EPISODE RANGES -->
+                <LinearLayout
+                    android:id="@+id/kumoDetailsRangeRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/kumoDetailsRanges"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:nextFocusUp="@+id/kumoDetailsSeasons"
+                        android:nextFocusDown="@+id/kumoDetailsEpisodes"
+                        tools:listitem="@layout/kumo_option_chip" />
+                </LinearLayout>
+
+                <!-- EPISODES (label removed per design; count kept) -->
+                <LinearLayout
+                    android:id="@+id/kumoDetailsEpisodesHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical|end">
+
+                    <TextView
+                        android:id="@+id/kumoDetailsEpisodeCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#9AA0A6"
+                        android:textSize="12sp"
+                        android:fontFamily="@font/google_sans"
+                        tools:text="26" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/kumoDetailsNoEpisodes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="#9AA0A6"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/google_sans"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/kumoDetailsEpisodes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:nextFocusUp="@+id/kumoDetailsSeasons"
+                    tools:listitem="@layout/kumo_details_episode" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- No on-screen back: the remote back key pops the page (stock TV guidance). -->
+
+    <!-- LOADING -->
+    <ProgressBar
+        android:id="@+id/kumoDetailsLoading"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="#FFFFFF" />
+
+    <!-- ERROR -->
+    <LinearLayout
+        android:id="@+id/kumoDetailsError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/kumoDetailsErrorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#9AA0A6"
+            android:textSize="14sp"
+            android:fontFamily="@font/google_sans"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/kumoDetailsRetry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/kumo_play_button"
+            android:foreground="@drawable/outline_drawable_forced"
+            android:text="Retry"
+            android:textColor="#FFFFFF"
+            android:fontFamily="@font/google_sans"
+            android:stateListAnimator="@null" />
+    </LinearLayout>
+</FrameLayout>

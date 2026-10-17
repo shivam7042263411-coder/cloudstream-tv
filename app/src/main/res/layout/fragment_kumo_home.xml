@@ -1,0 +1,645 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kumo_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#080A0F"
+    tools:context=".ui.home.KumoHomeFragment">
+
+    <!-- Content container -->
+    <LinearLayout
+        android:id="@+id/kumo_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Premium Header -->
+        <LinearLayout
+            android:id="@+id/kumo_header"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="12dp"
+            android:background="#080A0F"
+            android:elevation="0dp">
+
+            <TextView
+                android:id="@+id/kumo_brand_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="KUMO"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/google_sans"
+                android:letterSpacing="0.12" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="2dp"
+                android:text="•"
+                android:textColor="#3A3A42"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/kumo_brand_sub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:text="ANIME"
+                android:textColor="#9AA0A6"
+                android:textSize="10sp"
+                android:letterSpacing="0.2"
+                android:fontFamily="@font/google_sans"
+                tools:text="ANIME" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/kumo_change_api"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/home_source"
+                android:textSize="12sp"
+                android:textColor="#E8E8ED"
+                android:letterSpacing="0.02"
+                app:cornerRadius="16dp"
+                app:strokeColor="#2A2A32"
+                app:strokeWidth="1dp"
+                android:backgroundTint="#14141C"
+                android:nextFocusLeft="@id/nav_rail_view"
+                android:nextFocusDown="@id/kumo_master_recycler"
+                tools:text="AniWave" />
+
+            <FrameLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/kumo_icon_bg"
+                android:layout_marginEnd="4dp">
+
+                <ImageView
+                    android:id="@+id/kumo_search_button"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
+                    android:src="@drawable/search_icon"
+                    android:contentDescription="@string/search"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:nextFocusLeft="@id/kumo_change_api"
+                    android:nextFocusRight="@id/kumo_account_button"
+                    app:tint="#E8E8ED" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/kumo_icon_bg"
+                android:layout_marginEnd="4dp">
+
+                <ImageView
+                    android:id="@+id/kumo_browse_button"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:padding="8dp"
+                    android:src="@drawable/baseline_grid_view_24"
+                    android:contentDescription="@string/browse"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:focusable="true"
+                    android:clickable="true"
+                    app:tint="#E8E8ED" />
+            </FrameLayout>
+
+            <ImageView
+                android:id="@+id/kumo_account_button"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="4dp"
+                android:src="@drawable/ic_outline_account_circle_24"
+                android:contentDescription="@string/account"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:focusable="true"
+                android:clickable="true"
+                android:nextFocusLeft="@id/kumo_search_button"
+                app:tint="#9AA0A6" />
+
+        </LinearLayout>
+
+        <!-- Subtle divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#0F0F14"
+            android:alpha="0.8" />
+
+        <!-- Scrollable content: hero + rows -->
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:clipToPadding="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Hero area — real provider data, hides if no suitable item -->
+                <FrameLayout
+                    android:id="@+id/kumo_hero_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="430dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/kumo_hero_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/example_poster" />
+
+                    <!-- Premium gradient: deep fade for text legibility -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/kumo_hero_gradient" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:paddingBottom="24dp">
+
+                        <TextView
+                            android:id="@+id/kumo_hero_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#FFFFFF"
+                            android:textSize="24sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/google_sans"
+                            android:gravity="center"
+                            android:maxLines="2"
+                            android:ellipsize="end"
+                            android:lineSpacingExtra="2dp"
+                            tools:text="Late Night with Seth Meyers" />
+
+                        <TextView
+                            android:id="@+id/kumo_hero_meta"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textColor="#C9CDD3"
+                            android:textSize="13sp"
+                            android:fontFamily="@font/google_sans"
+                            android:gravity="center"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            tools:text="Series • News • 2014-" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/kumo_hero_play"
+                            style="@style/Widget.Material3.Button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="14dp"
+                            android:minWidth="220dp"
+                            android:text="View Details"
+                            android:textColor="#0A0A0F"
+                            android:textSize="15sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.02"
+                            android:backgroundTint="#FFFFFF"
+                            app:cornerRadius="24dp" />
+
+                        <LinearLayout
+                            android:id="@+id/kumo_hero_dots"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical" />
+                    </LinearLayout>
+
+                </FrameLayout>
+
+                <!-- Metadata catalog rows (Stremio addons, auto-loaded when configured) -->
+                <LinearLayout
+                    android:id="@+id/kumoMetadataSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/kumoMetadataHeader"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:paddingTop="12dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Browse"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/google_sans"
+                            android:letterSpacing="0.02" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="›"
+                            android:textColor="#7A5CFA"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/kumoMetadataRows"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nestedScrollingEnabled="false"
+                        android:clipToPadding="false"
+                        android:paddingBottom="8dp"
+                        tools:listitem="@layout/kumo_catalog_row" />
+                </LinearLayout>
+
+                <!-- Catalog rows -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/kumo_master_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="80dp"
+                    android:descendantFocusability="afterDescendants"
+                    android:nextFocusLeft="@id/nav_rail_view"
+                    android:nextFocusUp="@id/kumo_change_api"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/kumo_home_row"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <!-- Loading overlay -->
+    <FrameLayout
+        android:id="@+id/kumo_loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="64dp"
+        android:background="#080A0F"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/kumo_loading_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            app:shimmer_auto_start="true"
+            app:shimmer_base_alpha="0.15"
+            app:shimmer_base_color="#14141C"
+            app:shimmer_highlight_alpha="0.28"
+            app:shimmer_highlight_color="#1E1E28"
+            app:shimmer_duration="@integer/loading_time">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="#14141C"
+                    android:alpha="0.6" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
+
+                    <View
+                        android:layout_width="110dp"
+                        android:layout_height="14dp"
+                        android:background="#14141C"
+                        android:alpha="0.7" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="200dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#14141C" />
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="200dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#14141C" />
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="200dp"
+                            android:background="#14141C" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="110dp"
+                        android:layout_height="14dp"
+                        android:layout_marginTop="24dp"
+                        android:background="#14141C"
+                        android:alpha="0.7" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="200dp"
+                            android:layout_marginEnd="10dp"
+                            android:background="#14141C" />
+                        <View
+                            android:layout_width="140dp"
+                            android:layout_height="200dp"
+                            android:background="#14141C" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </FrameLayout>
+
+    <!-- Error overlay -->
+    <LinearLayout
+        android:id="@+id/kumo_loading_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="64dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <ImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_baseline_autorenew_24"
+            android:alpha="0.5"
+            app:tint="#5A5A66" />
+
+        <TextView
+            android:id="@+id/kumo_result_error_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="#E8E8ED"
+            android:textSize="14sp"
+            android:fontFamily="@font/google_sans"
+            tools:text="Unable to load catalog. Check your connection." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/kumo_reload_connectionerror"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/reload_error"
+            android:backgroundTint="#FFFFFF"
+            android:textColor="#0A0A0F"
+            app:cornerRadius="20dp"
+            app:icon="@drawable/ic_baseline_autorenew_24"
+            app:iconTint="#0A0A0F" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/kumo_reload_connection_open_in_browser"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/result_open_in_browser"
+            android:textColor="#9AA0A6"
+            app:strokeColor="#2A2A32"
+            android:backgroundTint="@android:color/transparent"
+            app:cornerRadius="18dp"
+            app:icon="@drawable/ic_baseline_public_24" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/kumo_reload_connection_go_to_downloads"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/go_to_downloads"
+            android:textColor="#7A5CFA"
+            app:icon="@drawable/netflix_download" />
+
+    </LinearLayout>
+
+    <!-- Empty overlay -->
+    <LinearLayout
+        android:id="@+id/kumo_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="56dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data"
+            android:textColor="#E8E8ED"
+            android:textSize="16sp"
+            android:fontFamily="@font/google_sans"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="No catalogs from this provider. Try another source."
+            android:textColor="#7A7F8A"
+            android:textSize="13sp"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <!-- KUMO Phone Bottom Navigation — dark premium, uses existing destinations -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/kumo_bottom_nav_container"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#0F0F14"
+        app:strokeColor="#1A1A22"
+        app:strokeWidth="1dp"
+        app:cardCornerRadius="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp">
+
+            <LinearLayout
+                android:id="@+id/kumo_bottom_home"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/home_icon_selector"
+                    app:tint="#FFFFFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/title_home"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/google_sans"
+                    android:letterSpacing="0.05" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/kumo_bottom_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/search_icon"
+                    app:tint="#7A7F8A" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/title_search"
+                    android:textColor="#7A7F8A"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/google_sans" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/kumo_bottom_library"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/library_icon_selector"
+                    app:tint="#7A7F8A" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/library"
+                    android:textColor="#7A7F8A"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/google_sans" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/kumo_bottom_downloads"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/netflix_download"
+                    app:tint="#7A7F8A" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/title_downloads"
+                    android:textColor="#7A7F8A"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/google_sans" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</FrameLayout>

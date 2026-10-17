@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background_card"
+    android:layout_width="148dp"
+    android:layout_height="212dp"
+    android:layout_margin="6dp"
+    android:layout_marginBottom="8dp"
+    android:elevation="0dp"
+    app:cardBackgroundColor="#14141C"
+    app:cardCornerRadius="14dp"
+    app:strokeColor="#1E1E28"
+    app:strokeWidth="1dp"
+    android:foreground="@drawable/outline_drawable">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/search_poster_img_des"
+        android:duplicateParentState="true"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/example_poster" />
+
+    <!-- Premium bottom gradient for legibility -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/title_shadow" />
+
+    <!-- Title -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="4dp">
+
+        <TextView
+            android:id="@+id/imageText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:minHeight="16dp"
+            android:textColor="#FFFFFF"
+            android:textSize="11sp"
+            android:lineSpacingExtra="1dp"
+            android:fontFamily="@font/google_sans"
+            android:textStyle="bold"
+            tools:text="Frieren Beyond Journey's End" />
+
+        <TextView
+            android:id="@+id/episode_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dp"
+            style="@style/EpisodeTextButton"
+            android:textSize="9sp" />
+    </LinearLayout>
+
+    <!-- Top badges -->
+    <TextView
+        android:id="@+id/text_quality"
+        style="@style/TypeButton"
+        android:layout_gravity="top|start"
+        android:layout_margin="6dp"
+        android:textSize="9sp"
+        app:cornerRadius="6dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:orientation="vertical"
+        android:padding="6dp">
+
+        <TextView
+            android:id="@+id/text_is_dub"
+            style="@style/DubButton"
+            android:layout_gravity="end"
+            android:textSize="8sp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/text_is_sub"
+            style="@style/SubButton"
+            android:layout_gravity="end"
+            android:textSize="8sp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/text_rating"
+            style="@style/RatingButton"
+            android:layout_gravity="end"
+            android:textSize="9sp"
+            tools:text="9.1" />
+
+        <TextView
+            android:id="@+id/text_flag"
+            style="@style/SearchBox"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:textSize="16sp"
+            android:visibility="gone"
+            tools:text="🇯🇵"
+            tools:visibility="gone" />
+    </LinearLayout>
+
+    <!-- Center progress/play -->
+    <FrameLayout
+        android:id="@+id/watch_progress_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/search_item_download_play"
+            style="@style/HomePlayUnderlayProgress" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/watchProgress"
+            style="@style/HomeCircularProgress"
+            app:indicatorSize="36dp"
+            app:trackThickness="2dp"
+            tools:progress="60" />
+    </FrameLayout>
+
+</androidx.cardview.widget.CardView>
